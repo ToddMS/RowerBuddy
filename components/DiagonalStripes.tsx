@@ -5,7 +5,7 @@ import Svg, { Defs, Pattern, Rect, Line, Mask } from 'react-native-svg';
 const { width, height } = Dimensions.get('window');
 
 const borderWidth = 10; 
-const borderOffset = 112;
+const borderOffset = 50;
 
 const DiagonalStripes = () => {
   return (

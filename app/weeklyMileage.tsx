@@ -1,18 +1,30 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import WeekDataList from '../components/WeekDataList/WeekDataList';
+import DiagonalStripes from '../components/DiagonalStripes';
 
 const WeeklyMileage: React.FC = () => {
   return (
     <View style={styles.container}>
-      <WeekDataList />
+      <DiagonalStripes />
+      <View style={styles.content}>
+        <WeekDataList />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: '#fff' },
-  title: { fontSize: 16, marginBottom: 12, textAlign: 'center', color: '#333' },
+  container: { 
+    flex: 1, 
+    position: 'relative', 
+    backgroundColor: '#fff',
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20, 
+    paddingVertical: 30,
+  }
 });
 
 export default WeeklyMileage;

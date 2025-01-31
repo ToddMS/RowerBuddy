@@ -1,10 +1,10 @@
 import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons'; // Import icons
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 
 const _layout = () => {
   return (
-    <Tabs>
+    <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen
         name="index"
         options={{
