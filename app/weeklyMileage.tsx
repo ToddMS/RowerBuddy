@@ -6,7 +6,6 @@ import WeekDataList from '../components/WeekDataList/WeekDataList';
 const WeeklyMileage: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>This is your Strava workouts split into weeks</Text>
       <WeekDataList />
     </View>
   );
