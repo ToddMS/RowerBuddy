@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, ScrollView, StyleSheet } from 'react-native'; // ✅ Add StyleSheet here
+import { View, ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 import { fetchAccessToken, fetchActivities } from '../../services/StravaService';
 import { WeeklyData } from '../../types/strava';
 import { groupActivitiesByWeek } from '../utils';
@@ -7,6 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import WeekHeader from './WeekHeader';
 import WeekSummary from './WeekSummary';
 import ActivityList from './ActivityList';
+import { requestNotificationPermissions, scheduleWeeklyNotification } from '../../services/NotificationService';
 
 const WeekDataList: React.FC = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -15,6 +16,8 @@ const WeekDataList: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   useEffect(() => {
+    requestNotificationPermissions();
+
     const initialize = async () => {
       setLoading(true);
       try {
@@ -34,6 +37,14 @@ const WeekDataList: React.FC = () => {
       loadWeeklyData();
     }
   }, [accessToken]);
+
+  useEffect(() => {
+    if (weeklyData.length > 0) {
+      const latestWeek = weeklyData[currentIndex];
+      const textToCopy = `Total: ${(latestWeek.mileage / 1000).toFixed(2)} km\nRowing: ${(latestWeek.rowingMileage / 1000).toFixed(2)} km\nBike: ${(latestWeek.cyclingMileage / 1000).toFixed(2)} km`;
+      scheduleWeeklyNotification(textToCopy);
+    }
+  }, [weeklyData, currentIndex]);
 
   const loadWeeklyData = async () => {
     if (!accessToken) return;
@@ -71,18 +82,24 @@ const WeekDataList: React.FC = () => {
             disableNext={currentIndex === weeklyData.length - 1}
           />
 
-          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-            <View style={styles.summaryContainer}>
-              <WeekSummary {...weeklyData[currentIndex]} />
-            </View>
-            <ActivityList 
-              activities={weeklyData[currentIndex].activities.map(activity => ({
-                ...activity,
-                id: activity.id.toString()
-              }))} 
-            />
-          </ScrollView>
-
+          <FlatList
+            data={[weeklyData[currentIndex]]}
+            keyExtractor={(item) => item.weekStart.toString()}
+            renderItem={({ item }) => (
+              <View>
+                <View style={styles.summaryContainer}>
+                  <WeekSummary {...item} />
+                </View>
+                <ActivityList 
+                  activities={item.activities.map(activity => ({
+                    ...activity,
+                    id: activity.id.toString()
+                  }))} 
+                />
+              </View>
+            )}
+            contentContainerStyle={styles.flatListContainer}
+          />
         </>
       )}
     </GestureHandlerRootView>
@@ -90,11 +107,11 @@ const WeekDataList: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  scrollViewContainer: {
-    paddingBottom: 100, 
+  flatListContainer: {
+    paddingBottom: 100,
   },
   summaryContainer: {
-    marginTop: 10,
+    marginTop: 10, 
   },
 });
 
