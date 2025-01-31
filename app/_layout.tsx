@@ -1,10 +1,18 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
+import { COLORS } from '../utils/theme';
 
 const _layout = () => {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: COLORS.primary, // Green for selected tab
+        tabBarInactiveTintColor: COLORS.secondary, // Pink for unselected tabs
+        tabBarStyle: { backgroundColor: "#fff", borderTopWidth: 0 },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{

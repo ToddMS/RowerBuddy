@@ -1,30 +1,22 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import WeekDataList from '../components/WeekDataList/WeekDataList';
-import DiagonalStripes from '../components/DiagonalStripes';
+import { COLORS } from '../utils/theme';
 
 const WeeklyMileage: React.FC = () => {
   return (
-    <View style={styles.container}>
-      <DiagonalStripes />
+    <SafeAreaView style={styles.safeContainer}>
       <View style={styles.content}>
         <WeekDataList />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    position: 'relative', 
-    backgroundColor: '#fff',
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 20, 
-    paddingVertical: 30,
-  }
+  safeContainer: { flex: 1, backgroundColor: COLORS.background },
+  content: { flex: 1, paddingHorizontal: 20, paddingTop: 20 },
 });
 
 export default WeeklyMileage;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 import { fetchAccessToken, fetchActivities } from '../../services/StravaService';
 import { WeeklyData } from '../../types/strava';
-import { groupActivitiesByWeek } from '../utils';
+import { groupActivitiesByWeek } from '../../utils/utils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import WeekHeader from './WeekHeader';
 import WeekSummary from './WeekSummary';
