@@ -1,12 +1,18 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import DiagonalStripes from '../components/DiagonalStripes';
 
 const Profile = () => {
   return (
-    <View>
+    <View style={styles.container}>
+      <DiagonalStripes />
       <Text>Profile</Text>
     </View>
-  )
-}
+  );
+};
 
-export default Profile
+const styles = StyleSheet.create({
+  container: { flex: 1, position: 'relative', backgroundColor: '#fff' },
+});
+
+export default Profile;

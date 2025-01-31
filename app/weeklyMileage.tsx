@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import WeekDataList from '../components/WeekDataList/WeekDataList';
 
-
 const WeeklyMileage: React.FC = () => {
   return (
     <View style={styles.container}>
