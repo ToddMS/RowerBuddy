@@ -7,7 +7,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import WeekHeader from './WeekHeader';
 import WeekSummary from './WeekSummary';
 import ActivityList from './ActivityList';
-import { requestNotificationPermissions, scheduleWeeklyNotification } from '../../services/NotificationService';
+import { requestNotificationPermissions, scheduleWeeklyNotification, cancelAllNotifications } from '../../services/NotificationService';
 
 const WeekDataList: React.FC = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -41,10 +41,19 @@ const WeekDataList: React.FC = () => {
   useEffect(() => {
     if (weeklyData.length > 0) {
       const latestWeek = weeklyData[currentIndex];
+  
+      if (!latestWeek) return;
+  
       const textToCopy = `Total: ${(latestWeek.mileage / 1000).toFixed(2)} km\nRowing: ${(latestWeek.rowingMileage / 1000).toFixed(2)} km\nBike: ${(latestWeek.cyclingMileage / 1000).toFixed(2)} km`;
-      scheduleWeeklyNotification(textToCopy);
+  
+      const scheduleNotification = async () => {
+        await cancelAllNotifications();
+        await scheduleWeeklyNotification(textToCopy);
+      };
+  
+      scheduleNotification();
     }
-  }, [weeklyData, currentIndex]);
+  }, [weeklyData]);
 
   const loadWeeklyData = async () => {
     if (!accessToken) return;

@@ -8,7 +8,7 @@ export const requestNotificationPermissions = async () => {
   }
 };
 
-export const cancelAllNotifications = async () => {
+export const cancelAllNotifications = async () => { 
   await Notifications.cancelAllScheduledNotificationsAsync();
 };
 
